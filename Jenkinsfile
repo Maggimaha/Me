@@ -1,10 +1,17 @@
 pipeline{
-    environment{
-        AWS_ACCESS_KEY_ID = credentials ('AWS_ACCESS_KEY_ID')
-        AWS_SECRET_ACCESS_KEY = credentials ('AWS_SECRET_ACCESS_KEY')
-    }
     agent any
-    stages{
+    tools {
+  terraform 'Terraform'
+}
+environment {
+        AWS_CREDENTIALS = credentials('aws_credentials')
+    }
+stages{
+    stage('Git Checkout'){
+        steps{
+            git branch: 'main', url: 'https://github.com/Maggimaha/Me'
+        }
+        }
         stage('Terraform Init'){
             steps{
                 sh 'terraform init'
